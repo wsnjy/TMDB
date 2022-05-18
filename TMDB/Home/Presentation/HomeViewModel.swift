@@ -18,16 +18,17 @@ protocol HomeViewModelInput {
 
 protocol HomeViewModelOutput {
     var trending: Observable<[Movie]>  { get }
+    var discover: Observable<[Movie]>  { get }
     var errorMessage: Observable<String>  { get }
 }
 
 protocol HomeViewModel: HomeViewModelInput, HomeViewModelOutput {}
 
-class DefaultViewModel: HomeViewModel {
+class DefaultHomeViewModel: HomeViewModel {
     
     var trending: Observable<[Movie]> = Observable([])
+    var discover: Observable<[Movie]> = Observable([])
     var errorMessage: Observable<String> = Observable("")
-
     var useCase: HomeUsecase!
     
     init(useCase: HomeUsecase = DefaultHomeUsecase()) {
@@ -35,8 +36,12 @@ class DefaultViewModel: HomeViewModel {
     }
     
     func viewDidLoad() {
-        getTrending(.movie)
-//        getDiscover(.movie)
+        getDataItem(type: .movie)
+    }
+    
+    func getDataItem(type: ItemType) {
+        getTrending(type)
+        getDiscover(type)
     }
     
     private func getTrending(_ item: ItemType) {
@@ -48,8 +53,8 @@ class DefaultViewModel: HomeViewModel {
         useCase.getTrendingItem(url: url) { result in
             switch result {
             case .success(let data):
-                print(data.results)
-                
+                self.trending.value = data.results
+
             case .failure:
                 print("show general error")
             }
@@ -66,7 +71,7 @@ class DefaultViewModel: HomeViewModel {
         useCase.getTrendingItem(url: url) { result in
             switch result {
             case .success(let data):
-                print(data.results.first)
+                self.discover.value = data.results
 
             case .failure:
                 print("show general error")

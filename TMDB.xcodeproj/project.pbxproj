@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BD823F662834A041005C209B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F652834A041005C209B /* AppDelegate.swift */; };
-		BD823F682834A041005C209B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F672834A041005C209B /* SceneDelegate.swift */; };
 		BD823F6A2834A041005C209B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F692834A041005C209B /* HomeViewController.swift */; };
-		BD823F6D2834A041005C209B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD823F6B2834A041005C209B /* Main.storyboard */; };
 		BD823F6F2834A043005C209B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD823F6E2834A043005C209B /* Assets.xcassets */; };
 		BD823F722834A043005C209B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD823F702834A043005C209B /* LaunchScreen.storyboard */; };
 		BD823F802834A0C4005C209B /* TMDBTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F7F2834A0C4005C209B /* TMDBTests.swift */; };
@@ -29,6 +27,10 @@
 		BD823FB12834EC1A005C209B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB02834EC1A005C209B /* DetailViewModel.swift */; };
 		BD823FB32834EDFD005C209B /* Reviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB22834EDFD005C209B /* Reviews.swift */; };
 		BD823FB52834F0C9005C209B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB42834F0C9005C209B /* DetailViewController.swift */; };
+		BD823FB728350711005C209B /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB628350711005C209B /* TabbarController.swift */; };
+		BD823FB928351BFF005C209B /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB828351BFF005C209B /* CollectionTableViewCell.swift */; };
+		BD823FBB28351C2D005C209B /* ContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FBA28351C2D005C209B /* ContentCollectionViewCell.swift */; };
+		BD823FBE28351E5C005C209B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = BD823FBD28351E5C005C209B /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,9 +46,7 @@
 /* Begin PBXFileReference section */
 		BD823F622834A041005C209B /* TMDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TMDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD823F652834A041005C209B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BD823F672834A041005C209B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BD823F692834A041005C209B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		BD823F6C2834A041005C209B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BD823F6E2834A043005C209B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD823F712834A043005C209B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD823F732834A043005C209B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +67,9 @@
 		BD823FB02834EC1A005C209B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		BD823FB22834EDFD005C209B /* Reviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reviews.swift; sourceTree = "<group>"; };
 		BD823FB42834F0C9005C209B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		BD823FB628350711005C209B /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
+		BD823FB828351BFF005C209B /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		BD823FBA28351C2D005C209B /* ContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD823FBE28351E5C005C209B /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,8 +118,6 @@
 				BD823F902834B50C005C209B /* Home */,
 				BD823F892834AFF2005C209B /* ServiceManager */,
 				BD823F652834A041005C209B /* AppDelegate.swift */,
-				BD823F672834A041005C209B /* SceneDelegate.swift */,
-				BD823F6B2834A041005C209B /* Main.storyboard */,
 				BD823F6E2834A043005C209B /* Assets.xcassets */,
 				BD823F702834A043005C209B /* LaunchScreen.storyboard */,
 				BD823F732834A043005C209B /* Info.plist */,
@@ -165,6 +167,9 @@
 			children = (
 				BD823F692834A041005C209B /* HomeViewController.swift */,
 				BD823FA12834DAE4005C209B /* HomeViewModel.swift */,
+				BD823FB628350711005C209B /* TabbarController.swift */,
+				BD823FB828351BFF005C209B /* CollectionTableViewCell.swift */,
+				BD823FBA28351C2D005C209B /* ContentCollectionViewCell.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -278,6 +283,9 @@
 			dependencies = (
 			);
 			name = TMDB;
+			packageProductDependencies = (
+				BD823FBD28351E5C005C209B /* Kingfisher */,
+			);
 			productName = TMDB;
 			productReference = BD823F622834A041005C209B /* TMDB.app */;
 			productType = "com.apple.product-type.application";
@@ -328,6 +336,9 @@
 				Base,
 			);
 			mainGroup = BD823F592834A041005C209B;
+			packageReferences = (
+				BD823FBC28351E5C005C209B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = BD823F632834A041005C209B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -345,7 +356,6 @@
 			files = (
 				BD823F722834A043005C209B /* LaunchScreen.storyboard in Resources */,
 				BD823F6F2834A043005C209B /* Assets.xcassets in Resources */,
-				BD823F6D2834A041005C209B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,19 +377,21 @@
 				BD823F6A2834A041005C209B /* HomeViewController.swift in Sources */,
 				BD823FAD2834E9F9005C209B /* DetailRepository.swift in Sources */,
 				BD823F9D2834BA2E005C209B /* HTTPError.swift in Sources */,
+				BD823FBB28351C2D005C209B /* ContentCollectionViewCell.swift in Sources */,
 				BD823F882834A29C005C209B /* Service.swift in Sources */,
 				BD823F8B2834B366005C209B /* APIHandler.swift in Sources */,
 				BD823F932834B719005C209B /* Constant.swift in Sources */,
+				BD823FB728350711005C209B /* TabbarController.swift in Sources */,
 				BD823F9B2834B9FD005C209B /* Movie.swift in Sources */,
 				BD823FAF2834EB88005C209B /* DetailUseCase.swift in Sources */,
 				BD823FB52834F0C9005C209B /* DetailViewController.swift in Sources */,
 				BD823F662834A041005C209B /* AppDelegate.swift in Sources */,
 				BD823FA22834DAE4005C209B /* HomeViewModel.swift in Sources */,
 				BD823FB32834EDFD005C209B /* Reviews.swift in Sources */,
-				BD823F682834A041005C209B /* SceneDelegate.swift in Sources */,
 				BD823F982834B78C005C209B /* HomeRepository.swift in Sources */,
 				BD823F9F2834BE3E005C209B /* HomeUseCase.swift in Sources */,
 				BD823F8D2834B412005C209B /* ResponseHandler.swift in Sources */,
+				BD823FB928351BFF005C209B /* CollectionTableViewCell.swift in Sources */,
 				BD823FB12834EC1A005C209B /* DetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -403,14 +415,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		BD823F6B2834A041005C209B /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD823F6C2834A041005C209B /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BD823F702834A043005C209B /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -550,7 +554,6 @@
 				INFOPLIST_FILE = TMDB/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -578,7 +581,6 @@
 				INFOPLIST_FILE = TMDB/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -661,6 +663,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BD823FBC28351E5C005C209B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BD823FBD28351E5C005C209B /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BD823FBC28351E5C005C209B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BD823F5A2834A041005C209B /* Project object */;
 }

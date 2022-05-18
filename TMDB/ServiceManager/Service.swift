@@ -32,7 +32,6 @@ class Service {
                         completion(.failure(.noData))
                     }
                 }
-                
             case .failure:
                 completion(.failure(.requestError))
             }
