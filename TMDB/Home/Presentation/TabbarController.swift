@@ -19,14 +19,14 @@ class TabbarViewController: UITabBarController {
         let home = UINavigationController(rootViewController: HomeViewController(viewModel: DefaultHomeViewModel()))
         home.tabBarItem.image = UIImage(systemName: "house.fill")
         
-        let upcoming = UINavigationController(rootViewController: DetailViewController(viewModel: DefaultDetailViewModel()))
-        upcoming.tabBarItem.image = UIImage(systemName: "play.circle")
+        let account = UINavigationController(rootViewController: DetailViewController(viewModel: DefaultDetailViewModel()))
+        account.tabBarItem.image = UIImage(systemName: "person.fill")
         
         home.title = "Home"
-        upcoming.title = "Upcoming Movies"
+        account.title = "My Account"
         
-        tabBar.tintColor = .label
+        tabBar.tintColor = .systemTeal
         
-        setViewControllers([home, upcoming], animated: true)
+        setViewControllers([home, account], animated: true)
     }
 }

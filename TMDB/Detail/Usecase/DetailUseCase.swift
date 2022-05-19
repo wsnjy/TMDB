@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 protocol DetailUseCase {
+    func getDetailItem(url: URL, completion: @escaping(Result<ItemDetail, HTTPError>) -> Void)
     func getReviewMovie(url: URL, completion: @escaping(Result<ReviewResults, HTTPError>) -> Void)
 }
 
@@ -20,6 +21,10 @@ class DefaultDetailUseCase: DetailUseCase {
         self.repository = repository
     }
     
+    func getDetailItem(url: URL, completion: @escaping (Result<ItemDetail, HTTPError>) -> Void) {
+        repository.getDetailItem(url: url, completion: completion)
+    }
+
     func getReviewMovie(url: URL, completion: @escaping (Result<ReviewResults, HTTPError>) -> Void) {
         repository.getReviewMovie(url: url, completion: completion)
     }

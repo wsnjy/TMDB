@@ -14,6 +14,7 @@ enum HomeSection: Int {
 
 class HomeViewController: UIViewController {
 
+    private var headerTable: HeaderTable!
     var viewModel: HomeViewModel = DefaultHomeViewModel()
     let sectionTitle = ["Trending", "Discover"]
     lazy var sectionData = [[Movie]](repeating: [Movie](), count: sectionTitle.count)
@@ -33,10 +34,11 @@ class HomeViewController: UIViewController {
 
         setupViews()
         setupLayouts()
+        setupHeader()
         bind(to: viewModel)
         viewModel.viewDidLoad()
     }
-    
+        
     init(viewModel: HomeViewModel) {
         super.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
@@ -51,12 +53,21 @@ class HomeViewController: UIViewController {
         viewModel.trending.observe(on: self) { movies in
             self.sectionData[HomeSection.trending.rawValue] = movies
             self.tableView.reloadSections(IndexSet(integer: HomeSection.trending.rawValue), with: .fade)
+            self.setHeaderImage(movie: movies.randomElement())
         }
         
         viewModel.discover.observe(on: self) { movies in
             self.sectionData[HomeSection.discover.rawValue] = movies
             self.tableView.reloadSections(IndexSet(integer: HomeSection.discover.rawValue), with: .fade)
         }
+    }
+    
+    private func setHeaderImage(movie: Movie?) {
+        guard let `headerTable` = headerTable else {
+            return
+        }
+        
+        headerTable.setContentHeader(image: movie?.posterPath, title: movie?.title)
     }
     
     private func setupViews() {
@@ -70,6 +81,11 @@ class HomeViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+    
+    private func setupHeader() {
+        headerTable = HeaderTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 3/4))
+        tableView.tableHeaderView = headerTable
     }
 }
 
@@ -89,7 +105,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.textColor = .white
+        header.textLabel?.textColor = .systemTeal
         header.textLabel?.text = header.textLabel?.text?.capitalized
     }
     
@@ -115,20 +131,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let topOffset = view.safeAreaInsets.top
-        let offset = scrollView.contentOffset.y + topOffset
-        
-        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-    }
+    }        
 }
 
 extension HomeViewController: CollectionTableViewCellDelegate {
     
     func collectionTableViewCellDidTap(movie: Movie) {
-        print(movie)
-//        viewModel.setupDetailMoview(movie: movie)
+        let detail = DetailViewController(viewModel: DefaultDetailViewModel())
+        detail.setDetail(movie: movie)
+        self.navigationController?.pushViewController(detail, animated: true)
     }
 }

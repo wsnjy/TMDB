@@ -7,16 +7,46 @@
 
 import UIKit
 
+protocol DetailViewControllerInput {
+    func setDetail(movie: Movie)
+}
+
+enum SectionDetail: Int, CaseIterable {
+    case ratingAndGenre = 0
+    case content
+    case review
+}
+
+enum ReviewState {
+    case none
+    case showFirst
+    case showAll
+}
+
 class DetailViewController: UIViewController {
     
-    var viewModel: DetailViewModel = DefaultDetailViewModel()
-    
+    private var headerTable: HeaderTable!
+    private var viewModel: DetailViewModel = DefaultDetailViewModel()
+    private var movie: Movie?
+    private var reviews = [Review]()
+    private var contents = [TitleDescriptionMovie]()
+    private var reviewState: ReviewState = .none {
+        didSet {
+            tableView.reloadData()
+            tableView.reloadSections(IndexSet(integer: SectionDetail.review.rawValue), with: .fade)
+        }
+    }
+
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.delegate = self
         view.dataSource = self
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        view.estimatedRowHeight = UITableView.automaticDimension
+        view.rowHeight = UITableView.automaticDimension
+        view.register(RatingAndGenreCell.self, forCellReuseIdentifier: RatingAndGenreCell.identifier)
+        view.register(ContentCell.self, forCellReuseIdentifier: ContentCell.identifier)
+        view.register(ReviewCell.self, forCellReuseIdentifier: ReviewCell.identifier)
         return view
     }()
 
@@ -25,6 +55,9 @@ class DetailViewController: UIViewController {
         
         setupViews()
         setupLayouts()
+        setupHeader()
+        setupFooter()
+        
         bind(to: viewModel)
         viewModel.viewDidLoad()
         
@@ -42,11 +75,20 @@ class DetailViewController: UIViewController {
     
     private func bind(to: DetailViewModel) {
         viewModel.reviews.observe(on: self) { reviews in
-            print(reviews)
+            self.reviews = reviews
+            self.reviewState = .showFirst
+            self.tableView.reloadSections(IndexSet(integer: SectionDetail.review.rawValue), with: .fade)
+        }
+        
+        viewModel.contentDetail.observe(on: self) {  contents in
+            self.contents = contents
+            self.tableView.reloadSections(IndexSet(integer: SectionDetail.content.rawValue), with: .fade)
         }
     }
     
     private func setupViews() {
+        self.tableView.estimatedRowHeight = 80
+        self.tableView.rowHeight = UITableView.automaticDimension
         view.addSubview(tableView)
     }
     
@@ -59,23 +101,106 @@ class DetailViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    private func setupHeader() {
+        headerTable = HeaderTable(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.width * 3/4))
+        headerTable.setContentHeader(image: movie?.posterPath, title: movie?.title)
+        tableView.tableHeaderView = headerTable
+    }
+    
+    private func setupFooter() {
+        let footerDetail = FooterDetail(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44))
+        footerDetail.actionButton = {
+            self.reviewState = self.reviewState == .showFirst ? .showAll : .showFirst
+            self.tableView.tableFooterView = UIView(frame: .zero)
+        }
+        tableView.tableFooterView = footerDetail
+    }
 }
 
 extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return SectionDetail.allCases.count
+    }
+    
+    fileprivate func sectionReviewDataCount() -> Int {
+        switch reviewState {
+        case .showFirst:
+            return 1
+        case .showAll:
+            return reviews.count
+        default:
+            return 0
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        
+        switch section {
+        case SectionDetail.ratingAndGenre.rawValue:
+            return 1
+            
+        case SectionDetail.content.rawValue:
+            return contents.count
+            
+        case SectionDetail.review.rawValue:
+            return sectionReviewDataCount()
+            
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
+        
+        switch indexPath.section {
+        case SectionDetail.ratingAndGenre.rawValue:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: RatingAndGenreCell.identifier) as? RatingAndGenreCell else {
+                return UITableViewCell()
+            }
+            
+            return cell
+            
+        case SectionDetail.content.rawValue:
+            return setupContentMovieCell(cellForRowAt: indexPath)
+            
+        case SectionDetail.review.rawValue:
+            return setupReviewCell(cellForRowAt: indexPath)
+        default:
             return UITableViewCell()
         }
-        cell.textLabel?.text = "index \(indexPath.row)"
+    }
+    
+    fileprivate func setupContentMovieCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ContentCell.identifier) as? ContentCell else {
+            return UITableViewCell()
+        }
+        
+        let content = contents[indexPath.row]
+        cell.setupContent(title: content.title, description: content.description)
         return cell
     }
-   
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }    
+    
+    fileprivate func setupReviewCell(cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard !reviews.isEmpty else {
+            return UITableViewCell()
+        }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ReviewCell.identifier) as? ReviewCell else {
+            return UITableViewCell()
+        }
+        
+        let review = reviews[indexPath.row]
+        cell.setContent(imageURL: review.authorDetails.avatarPath, name: review.authorDetails.name, comment: review.content)
+        return cell
+    }
+}
+
+extension DetailViewController: DetailViewControllerInput {
+    
+    func setDetail(movie: Movie) {
+        self.movie = movie
+        viewModel.set(movieID: movie.id)
+    }
 }
