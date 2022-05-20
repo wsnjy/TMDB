@@ -14,4 +14,5 @@ struct Credential {
 struct Base {
     static let URL = "https://api.themoviedb.org"
     static let URLImage = "https://image.tmdb.org/t/p/w500"
+    static let version = "3"
 }
