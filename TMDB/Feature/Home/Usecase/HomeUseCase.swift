@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WSNetwork
 
 protocol HomeUsecase {
     func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void)

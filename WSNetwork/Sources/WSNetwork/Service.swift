@@ -7,18 +7,19 @@
 
 import Foundation
 
+public
 class Service {
     
     var apiHandler: APIHandler!
     var responseHandler: ResponseHandler!
     
-    init(apiHandler: APIHandler = DefaultAPIHandler(),
+    public init(apiHandler: APIHandler = DefaultAPIHandler(),
          responseHandler: ResponseHandler = DefaultResponseHandler()) {
         self.apiHandler = apiHandler
         self.responseHandler = responseHandler
     }
     
-    func fetchRequest<T: Codable>(type: T.Type, url: URL, completion: @escaping(Result<T, HTTPError>) -> Void) {
+    public func fetchRequest<T: Codable>(type: T.Type, url: URL, completion: @escaping(Result<T, HTTPError>) -> Void) {
         
         apiHandler.fetchData(url: url) { result in
             

@@ -7,13 +7,15 @@
 
 import Foundation
 
-protocol ResponseHandler {
+public protocol ResponseHandler {
     func fetchModel<T: Codable>(type: T.Type, data: Data, completion: @escaping(Result<T, HTTPError>) -> Void)
 }
 
-class DefaultResponseHandler: ResponseHandler {
+public class DefaultResponseHandler: ResponseHandler {
     
-    func fetchModel<T: Codable>(type: T.Type, data: Data, completion: @escaping(Result<T, HTTPError>) -> Void) {
+    public init() {}
+    
+    public func fetchModel<T: Codable>(type: T.Type, data: Data, completion: @escaping(Result<T, HTTPError>) -> Void) {
        
         let response = try? JSONDecoder().decode(type.self, from: data)
         

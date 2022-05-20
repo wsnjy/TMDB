@@ -7,13 +7,17 @@
 
 import Foundation
 
+public
 protocol APIHandler {
     func fetchData(url: URL, completion: @escaping(Result<Data, HTTPError>) -> Void)
 }
 
+public
 class DefaultAPIHandler: APIHandler {
     
-    func fetchData(url: URL, completion: @escaping(Result<Data, HTTPError>) -> Void) {
+    public init() {}
+
+    public func fetchData(url: URL, completion: @escaping(Result<Data, HTTPError>) -> Void) {
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let `data` = data, error == nil else {

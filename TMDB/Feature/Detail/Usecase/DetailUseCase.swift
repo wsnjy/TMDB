@@ -5,8 +5,8 @@
 //  Created by Wisnu Sanjaya on 18/05/22.
 //
 
-import Foundation
 import UIKit
+import WSNetwork
 
 protocol DetailUseCase {
     func getDetailItem(url: URL, completion: @escaping(Result<ItemDetail, HTTPError>) -> Void)

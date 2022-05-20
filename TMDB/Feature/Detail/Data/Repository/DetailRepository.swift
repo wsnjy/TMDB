@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WSNetwork
 
 protocol DetailRepository {
     func getDetailItem(url: URL, completion: @escaping(Result<ItemDetail, HTTPError>) -> Void)
@@ -13,6 +14,7 @@ protocol DetailRepository {
     func getCredits(url: URL, completion: @escaping (Result<CreditResult, HTTPError>) -> Void)
 }
 
+public
 class DefaultDetailRepository: DetailRepository {
     
     var service: Service!
