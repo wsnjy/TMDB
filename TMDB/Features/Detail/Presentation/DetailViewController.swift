@@ -269,7 +269,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         let review = reviews[indexPath.row]
-        cell.setContent(imageURL: review.authorDetails.avatarPath, name: review.authorDetails.name, comment: review.content)
+        cell.setContent(imageURL: review.authorDetails?.avatarPath, name: review.authorDetails?.name, comment: review.content)
         return cell
     }
     

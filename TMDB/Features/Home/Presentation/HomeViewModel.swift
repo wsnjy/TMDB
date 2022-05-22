@@ -13,8 +13,6 @@ enum ItemType: String {
 }
 
 enum HomeState: Equatable {
-    case empty
-    case loading
     case showData
     case errorNetwork(message: String)
     case generalError
@@ -38,7 +36,7 @@ class DefaultHomeViewModel: HomeViewModel {
     var trending: Observable<[Movie]> = Observable([])
     var discover: Observable<[Movie]> = Observable([])
     var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
-    var homeState: Observable<HomeState> = Observable(.empty)
+    var homeState: Observable<HomeState> = Observable(.showData)
     var useCase: HomeUsecase!
     
     init(useCase: HomeUsecase = DefaultHomeUsecase()) {
@@ -68,6 +66,7 @@ class DefaultHomeViewModel: HomeViewModel {
             switch result {
             case .success(let data):
                 self.trending.value = data.results
+                self.homeState.value = .showData
                 self.setHeaderData()
             case .failure:
                 self.homeState.value = .generalError
@@ -105,7 +104,7 @@ class DefaultHomeViewModel: HomeViewModel {
             switch result {
             case .success(let data):
                 self.discover.value = data.results
-
+                self.homeState.value = .showData
             case .failure:
                 self.homeState.value = .generalError
             }

@@ -8,20 +8,6 @@
 import Foundation
 import UIKit
 
-struct TitleDescriptionMovie: Equatable {
-    let title: String
-    var description: String
-    var releaseDate: String
-    let genre: String
-    let votes: String
-    let language: String
-    let reviews: String
-    
-    static func defaultData() -> TitleDescriptionMovie {
-        return TitleDescriptionMovie(title: "", description: "", releaseDate: "", genre: "", votes: "", language: "", reviews: "")
-    }
-}
-
 protocol DetailViewModelInput {
     func viewDidLoad()
     func setType(item: ItemType)
@@ -36,6 +22,12 @@ protocol DetailViewModelOutput {
     var headerData: Observable<HeaderData>  { get }
 }
 
+enum DetailState: Equatable {
+    case showData
+    case errorNetwork(message: String)
+    case generalError
+}
+
 protocol DetailViewModel: DetailViewModelInput, DetailViewModelOutput {}
 
 class DefaultDetailViewModel: DetailViewModel {
@@ -44,6 +36,7 @@ class DefaultDetailViewModel: DetailViewModel {
     var reviews: Observable<[Review]> = Observable([])
     var credits: Observable<[Cast]> = Observable([])
     var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
+    var detailState: Observable<DetailState> = Observable(.showData)
     var useCase: DetailUseCase!
     
     private(set) var itemID: String = ""
@@ -112,7 +105,7 @@ class DefaultDetailViewModel: DetailViewModel {
         return item.map{ $0.name }.joined(separator: ", ")
     }
 
-    private func getDetailMovie() {
+    internal func getDetailMovie() {
         let path = "/\(Base.version)/\(itemType)/\(itemID)?api_key="
         guard let url = URL(string: "\(Base.URL)\(path)\(Credential.apiKey)") else {
             return
@@ -128,7 +121,7 @@ class DefaultDetailViewModel: DetailViewModel {
         }
     }
     
-    private func getDataReview() {
+    internal func getDataReview() {
         
         let path = "/\(Base.version)/\(itemType)/\(itemID)/reviews?api_key="
         guard let url = URL(string: "\(Base.URL)\(path)\(Credential.apiKey)") else {
@@ -145,7 +138,7 @@ class DefaultDetailViewModel: DetailViewModel {
         }
     }
     
-    private func getDataActors() {
+    internal func getDataActors() {
         let path = "/\(Base.version)/\(itemType)/\(itemID)/credits?api_key="
         guard let url = URL(string: "\(Base.URL)\(path)\(Credential.apiKey)") else {
             return

@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import TMDB
+import WSNetwork
 
 class DetailViewModelTests: XCTestCase {
 
@@ -76,11 +77,88 @@ class DetailViewModelTests: XCTestCase {
         // then
         XCTAssertEqual(sut.headerData.value, headerData)
     }
-}
-
-extension Movie {
     
-    static func dummyData() -> Movie {
-        return Movie(title: "title", originalName: "title", originalTitle: "title", posterPath: "", adult: false, overview: "", releaseDate: "", id: 0, originalLanguage: "", backdropPath: "", popularity: 0, voteCount: 0, video: false, voteAverage: 0)
+    func test_getDetailMovieSuccess_shouldGetDetailData() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = true
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDetailMovie()
+        
+        // then
+        XCTAssertEqual(sut.contentDetail.value.title, "Game of Thrones")
+    }
+    
+    func test_getDetailMovieError_shouldGetShowError() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = false
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDetailMovie()
+        
+        // then
+        XCTAssertEqual(sut.contentDetail.value, TitleDescriptionMovie.defaultData())
+    }
+    
+    func test_getDetailReviewSuccess_shouldGetReviewData() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = true
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDataReview()
+        
+        // then
+        XCTAssertEqual(sut.reviews.value.count, 1)
+    }
+    
+    func test_getDetailReviewError_shouldShowError() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = false
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDataReview()
+        
+        // then
+        XCTAssertEqual(sut.reviews.value.count, 0)
+    }
+    
+    func test_getDataActorsSuccess_shouldShowDataActor() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = true
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDataActors()
+        
+        // then
+        XCTAssertEqual(sut.credits.value.count, 1)
+    }
+    
+    func test_getDataActorError_shouldShowError() {
+        // given
+        let repository = MockDetailRepository()
+        repository.isSuccess = false
+        let useCase = DefaultDetailUseCase(repository: repository)
+        sut = DefaultDetailViewModel(useCase: useCase)
+        
+        // when
+        sut.getDataActors()
+        
+        // then
+        XCTAssertEqual(sut.credits.value.count, 0)
     }
 }

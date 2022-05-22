@@ -23,7 +23,7 @@ struct ReviewResults: Codable {
 // MARK: - Review
 struct Review: Codable {
     let author: String
-    let authorDetails: AuthorDetails
+    let authorDetails: AuthorDetails?
     let content, createdAt, id, updatedAt: String
     let url: String
 

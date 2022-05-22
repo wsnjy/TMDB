@@ -59,7 +59,6 @@ class HomeViewController: UIViewController {
         
         viewModel.trending.observe(on: self) { movies in
             self.sectionData[HomeSection.trending.rawValue] = movies
-            self.refreshControl.endRefreshing()
             self.tableView.reloadSections(IndexSet(integer: HomeSection.trending.rawValue), with: .fade)
         }
         
@@ -69,7 +68,6 @@ class HomeViewController: UIViewController {
         
         viewModel.discover.observe(on: self) { movies in
             self.sectionData[HomeSection.discover.rawValue] = movies
-            self.refreshControl.endRefreshing()
             self.tableView.reloadSections(IndexSet(integer: HomeSection.discover.rawValue), with: .fade)
         }
         
@@ -122,6 +120,9 @@ extension HomeViewController {
     
     private func handleState(state: HomeState) {
         switch state {
+        case .showData:
+            self.refreshControl.endRefreshing()
+            
         case .errorNetwork(let message):
             showAlert(message: message, handler: {
                 self.refreshControl.endRefreshing()
