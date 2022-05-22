@@ -25,7 +25,7 @@ class HeaderTable: UIView {
         let view = UILabel()
         view.numberOfLines = 2
         view.textColor = .systemTeal
-        view.font = .systemFont(ofSize: 24, weight: .bold)
+        view.font = UIFont.simpleFont.circularTitle2Bold
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -66,7 +66,7 @@ class HeaderTable: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor.systemBackground.cgColor
+            UIColor.cafe_1.cgColor
         ]
         
         gradientLayer.frame = bounds

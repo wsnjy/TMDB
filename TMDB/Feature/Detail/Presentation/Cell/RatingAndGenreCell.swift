@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RatingAndGenreCellInput {
+    func setContent(rate: Bool, genre: String, vote: String)
+}
+
 class RatingAndGenreCell: UITableViewCell {
 
     static let identifier = "RatingAndGenreCell"
@@ -59,8 +63,6 @@ class RatingAndGenreCell: UITableViewCell {
     private func setupLayouts() {
         
         rate.setLabel(text: "18+")
-        genre.setLabel(text: "Drama")
-        vote.setLabel(text: "vote: 7.8")
 
         NSLayoutConstraint.activate([
             rate.heightAnchor.constraint(equalToConstant: 24),
@@ -68,7 +70,6 @@ class RatingAndGenreCell: UITableViewCell {
             vote.heightAnchor.constraint(equalToConstant: 24),
         ])
         
-        stackView.addArrangedSubview(rate)
         stackView.addArrangedSubview(genre)
         stackView.addArrangedSubview(vote)
         stackView.addArrangedSubview(UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 24)))
@@ -79,5 +80,17 @@ class RatingAndGenreCell: UITableViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -frame.size.width * 0.60),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
         ])
+    }
+}
+
+extension RatingAndGenreCell: RatingAndGenreCellInput {
+    
+    @objc func setContent(rate: Bool, genre: String, vote: String) {
+        if rate {
+            stackView.addArrangedSubview(self.rate)
+        }
+        
+        self.genre.setLabel(text: genre)
+        self.vote.setLabel(text: "vote: \(vote)")
     }
 }

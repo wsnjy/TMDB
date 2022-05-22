@@ -27,6 +27,7 @@ class HomeViewController: UIViewController {
 
     lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .grouped)
+        view.backgroundColor = UIColor.cafe_1
         view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         view.dataSource = self
@@ -36,8 +37,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.prefersLargeTitles = false
+        view.backgroundColor = UIColor.cafe_1
 
         setupViews()
         setupLayouts()
@@ -90,7 +90,7 @@ class HomeViewController: UIViewController {
     private func setupLayouts() {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
@@ -130,7 +130,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        header.textLabel?.textColor = .systemTeal
+        header.textLabel?.textColor = UIColor.cafe_4
         header.textLabel?.text = header.textLabel?.text?.capitalized
     }
     

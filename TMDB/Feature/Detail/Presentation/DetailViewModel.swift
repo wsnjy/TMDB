@@ -10,7 +10,17 @@ import UIKit
 
 struct TitleDescriptionMovie {
     let title: String
-    let description: String
+    var description: String
+}
+
+struct RateAndGenre: Equatable {
+    let isAdult: Bool
+    let genre: String
+    let votes: String
+    
+    static func defaultData() -> RateAndGenre {
+        return RateAndGenre(isAdult: false, genre: "", votes: "")
+    }
 }
 
 protocol DetailViewModelInput {
@@ -25,6 +35,7 @@ protocol DetailViewModelOutput {
     var reviews: Observable<[Review]>  { get }
     var credits: Observable<[Cast]>  { get }
     var headerData: Observable<HeaderData>  { get }
+    var rateAndGenre: Observable<RateAndGenre> { get }
 }
 
 protocol DetailViewModel: DetailViewModelInput, DetailViewModelOutput {}
@@ -35,10 +46,11 @@ class DefaultDetailViewModel: DetailViewModel {
     var reviews: Observable<[Review]> = Observable([])
     var credits: Observable<[Cast]> = Observable([])
     var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
+    var rateAndGenre: Observable<RateAndGenre> = Observable(RateAndGenre.defaultData())
     var useCase: DetailUseCase!
     
     private(set) var itemID: String = ""
-    private var itemType: ItemType = .movie
+    internal var itemType: ItemType = .movie
     
     init(useCase: DetailUseCase = DefaultDetailUseCase()) {
         self.useCase = useCase
@@ -71,6 +83,12 @@ class DefaultDetailViewModel: DetailViewModel {
                                       title: getTitleHeader(item: item))
     }
     
+    private func setRateAndGenre(item: ItemDetail) {
+        rateAndGenre.value = RateAndGenre(isAdult: item.adult ?? false,
+                                          genre: String(item.genres.map{$0.name}.first ?? "") ,
+                                          votes: String(item.voteAverage ?? 0))
+    }
+    
     private func getTitleHeader(item: Movie?) -> String {
         guard let title = item?.title, !title.isEmpty else {
             return item?.originalName ?? ""
@@ -81,14 +99,27 @@ class DefaultDetailViewModel: DetailViewModel {
 
     private func setupContent(detail: ItemDetail) {
         let summary = TitleDescriptionMovie(title: "Summary", description: detail.overview ?? "")
-        let releaseData = TitleDescriptionMovie(title: "Release Date", description: detail.releaseDate ?? "")
+        var releaseData = TitleDescriptionMovie(title: "Release Date", description: detail.releaseDate ?? "")
         let genre = TitleDescriptionMovie(title: "Genre", description: getGenresString(item: detail.genres))
+        
+        if let seasons = detail.seasons {
+            releaseData.description = getReleaseDateTVShow(seasons: seasons)
+        }
         
         contentDetail.value = [
             summary,
             releaseData,
             genre
         ]
+    }
+    
+    private func getReleaseDateTVShow(seasons: [Season]) -> String {
+        let seasonsArray = seasons.map({ $0.airDate })
+        guard let season = seasonsArray.first, let `season` = season else {
+            return "-"
+        }
+                
+        return season
     }
     
     private func getGenresString(item: [Genre]) -> String {
@@ -105,6 +136,7 @@ class DefaultDetailViewModel: DetailViewModel {
             switch result {
             case .success(let detail):
                 self.setupContent(detail: detail)
+                self.setRateAndGenre(item: detail)
             case .failure:
                 print("error data")
             }
@@ -137,7 +169,11 @@ class DefaultDetailViewModel: DetailViewModel {
         useCase.getCredits(url:  url) { result in
             switch result {
             case .success(let data):
-                self.credits.value = data.cast
+                if data.cast.count > 0 {
+                    self.credits.value = data.cast
+                } else {
+                    self.credits.value = [Cast.defaultdata()]
+                }
             case .failure:
                 print("error data")
             }

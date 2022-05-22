@@ -23,6 +23,7 @@ struct ItemDetail: Codable {
     let video: Bool?
     let voteAverage: Double?
     let voteCount: Int?
+    let seasons: [Season]?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -37,6 +38,7 @@ struct ItemDetail: Codable {
         case status, tagline, title, video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+        case seasons
     }
 }
 
@@ -48,14 +50,30 @@ struct Genre: Codable {
 
 // MARK: - ProductionCompany
 struct ProductionCompany: Codable {
-    let id: Int
+    let id: Int?
     let logoPath: String?
-    let name, originCountry: String
+    let name, originCountry: String?
 
     enum CodingKeys: String, CodingKey {
         case id
         case logoPath = "logo_path"
         case name
         case originCountry = "origin_country"
+    }
+}
+
+// MARK: - Season
+struct Season: Codable {
+    let airDate: String?
+    let episodeCount, id: Int?
+    let name, overview, posterPath: String?
+    let seasonNumber: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case airDate = "air_date"
+        case episodeCount = "episode_count"
+        case id, name, overview
+        case posterPath = "poster_path"
+        case seasonNumber = "season_number"
     }
 }

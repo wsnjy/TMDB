@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
     private var reviews = [Review]()
     private var contents = [TitleDescriptionMovie]()
     private var credits = [Cast]()
+    private var rateAndGenre: RateAndGenre?
     private var reviewState: ReviewState = .none {
         didSet {
             tableView.reloadData()
@@ -63,7 +64,27 @@ class DetailViewController: UIViewController {
         bind(to: viewModel)
         viewModel.viewDidLoad()
         
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+
         view.backgroundColor = .systemBackground
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Restore the navigation bar to default
+//        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+//        navigationController?.navigationBar.shadowImage = nil
     }
     
     init(viewModel: DetailViewModel) {
@@ -84,6 +105,7 @@ class DetailViewController: UIViewController {
         viewModel.reviews.observe(on: self) { reviews in
             self.reviews = reviews
             self.reviewState = .showFirst
+            self.setupFooter()
             self.tableView.reloadSections(IndexSet(integer: SectionDetail.review.rawValue), with: .fade)
         }
         
@@ -95,6 +117,11 @@ class DetailViewController: UIViewController {
         viewModel.credits.observe(on: self) { credits in
             self.credits = credits
             self.tableView.reloadSections(IndexSet(integer: SectionDetail.credit.rawValue), with: .fade)
+        }
+        
+        viewModel.rateAndGenre.observe(on: self) { rateAndGenre in
+            self.rateAndGenre = rateAndGenre
+            self.tableView.reloadSections(IndexSet(integer: SectionDetail.ratingAndGenre.rawValue), with: .fade)
         }
     }
     
@@ -133,7 +160,10 @@ class DetailViewController: UIViewController {
             self.reviewState = self.reviewState == .showFirst ? .showAll : .showFirst
             self.tableView.tableFooterView = UIView(frame: .zero)
         }
-        tableView.tableFooterView = footerDetail
+        
+        if reviews.count > 1 {
+            tableView.tableFooterView = footerDetail
+        }
     }
 }
 
@@ -164,7 +194,7 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
             return contents.count
             
         case SectionDetail.review.rawValue:
-            return sectionReviewDataCount()
+            return reviews.count > 0 ? sectionReviewDataCount() : 0
             
         default:
             return 0
@@ -179,6 +209,9 @@ extension DetailViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             
+            cell.setContent(rate: rateAndGenre?.isAdult ?? false,
+                            genre: rateAndGenre?.genre ?? "",
+                            vote: rateAndGenre?.votes ?? "")
             return cell
             
         case SectionDetail.content.rawValue:

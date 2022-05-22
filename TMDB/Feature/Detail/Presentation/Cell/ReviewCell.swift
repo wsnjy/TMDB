@@ -1,4 +1,4 @@
-//
+ //
 //  ReviewCell.swift
 //  TMDB
 //
@@ -28,7 +28,7 @@ class ReviewCell: UITableViewCell {
     let nameLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 12, weight: .regular)
+        view.font = UIFont.simpleFont.circularSubheadBold
         return view
     }()
     
@@ -36,7 +36,7 @@ class ReviewCell: UITableViewCell {
         let view = UILabel()
         view.numberOfLines = 0
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 10, weight: .regular)
+        view.font = UIFont.simpleFont.circularCaption1
         return view
     }()
     
@@ -98,12 +98,12 @@ extension ReviewCell: ReviewCellInput {
             finalURL = url
         }
         
-        imageUser.kf.setImage(with: finalURL, placeholder: UIImage(), options: nil, completionHandler: nil)
+        imageUser.kf.setImage(with: finalURL, placeholder: UIImage(named: "placeholderProfile"), options: nil, completionHandler: nil)
         nameLabel.text = getName(value: name)
         commentLabel.text = comment
     }
     
-    private func getName(value: String?) -> String {
+    internal func getName(value: String?) -> String {
         
         guard let name = value, !name.isEmpty else {
             return "Unamed"

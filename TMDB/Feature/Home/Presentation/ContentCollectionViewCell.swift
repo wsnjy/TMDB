@@ -18,6 +18,8 @@ class ContentCollectionViewCell: UICollectionViewCell {
     
     let poster: UIImageView = {
         let view = UIImageView()
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 8
         view.contentMode = .scaleAspectFit
         return view
     }()
@@ -39,7 +41,7 @@ class ContentCollectionViewCell: UICollectionViewCell {
 
 extension ContentCollectionViewCell: ContentCollectionViewCellInput {
     
-    func config(url: String) {
+    @objc func config(url: String) {
         guard let url = URL(string: "\(Base.URLImage)\(url)") else {
             return
         }

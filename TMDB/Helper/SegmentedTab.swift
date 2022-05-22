@@ -29,7 +29,7 @@ class SegmentedTab: UISegmentedControl {
     //MARK: - Components
     private lazy var indicatorLayer: CALayer = {
         let layer = CALayer()
-        layer.backgroundColor = UIColor.red.cgColor
+        layer.backgroundColor = UIColor.cafe_3.cgColor
         return layer
     }()
     
@@ -58,7 +58,7 @@ class SegmentedTab: UISegmentedControl {
             let item = subviews[i]
             let layer = CALayer()
             
-            layer.backgroundColor = UIColor.white.cgColor
+            layer.backgroundColor = UIColor.cafe_1.cgColor
             let newBounds = CGRect(x: item.bounds.origin.x, y: item.bounds.origin.y, width: self.frame.width / CGFloat(numberOfSegments), height: item.bounds.height - _tabHeight)
             layer.frame = newBounds
             item.layer.insertSublayer(layer, at: 0)
@@ -67,7 +67,7 @@ class SegmentedTab: UISegmentedControl {
         self.selectedSegmentIndex = 0
         
         let bottomSeparator: CALayer = CALayer()
-        bottomSeparator.backgroundColor = UIColor.red.cgColor
+        bottomSeparator.backgroundColor = UIColor.cafe_1.cgColor
         bottomSeparator.frame = CGRect(x: 0, y: self.frame.height - _tabHeight, width: self.frame.width, height: _tabHeight)
         self.layer.insertSublayer(bottomSeparator, at: 0)
         
@@ -78,15 +78,15 @@ class SegmentedTab: UISegmentedControl {
     
     //MARK: - Private Functions
     private func setupViews() {
-        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.black,
+        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.cafe_4,
                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)]
         setTitleTextAttributes(attribute, for: .normal)
         
-        let attribute1 = [NSAttributedString.Key.foregroundColor: UIColor.black,
+        let attribute1 = [NSAttributedString.Key.foregroundColor: UIColor.cafe_4,
                           NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)]
         setTitleTextAttributes(attribute1, for: .selected)
         
-//        setBackgroundImage(LAImage.getImage(image: .arrowRightOutline), for: .normal, barMetrics: .default)
+        setBackgroundImage(UIImage(named: "AppIcon"), for: .normal, barMetrics: .default)
         setDividerImage(imageWithColor(color: .clear), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         
         clipsToBounds = false

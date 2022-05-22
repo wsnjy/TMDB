@@ -12,7 +12,7 @@ enum ItemType: String {
     case tv
 }
 
-enum HomeState {
+enum HomeState: Equatable {
     case empty
     case loading
     case showData
@@ -31,7 +31,7 @@ protocol HomeViewModelOutput {
     var homeState: Observable<HomeState>  { get }
 }
 
-struct HeaderData {
+struct HeaderData: Equatable {
     var imagePath: String
     var title: String
     

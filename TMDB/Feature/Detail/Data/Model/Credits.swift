@@ -25,4 +25,8 @@ struct Cast: Codable {
         case profilePath = "profile_path"
         case character
     }
+    
+    static func defaultdata() -> Cast {
+        Cast(name: "No Data", originalName: "", profilePath: "placeholder", character: "")
+    }
 }

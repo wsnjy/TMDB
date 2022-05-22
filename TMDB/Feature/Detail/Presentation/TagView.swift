@@ -32,7 +32,7 @@ class TagView: UIView {
         super.init(coder: coder)
     }
     
-    private func setupViews() {
+    internal func setupViews() {
         backgroundColor = UIColor(white: 1, alpha: 0.1)
         layer.masksToBounds = true
         layer.cornerRadius = 5

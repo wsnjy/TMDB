@@ -45,7 +45,7 @@ class FooterDetail: UIView {
         ])
     }
     
-    @objc private func didTapButton() {
+    @objc internal func didTapButton() {
         actionButton()
     }
 }

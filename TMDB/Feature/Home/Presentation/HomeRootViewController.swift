@@ -40,7 +40,7 @@ class HomeRootViewController: UIPageViewController {
     lazy var tab: SegmentedTab = {
         let tab: SegmentedTab = SegmentedTab(items: TAB_ITEMS)
         tab.delegate = self
-        tab.backgroundColor = .white
+        tab.backgroundColor = .systemBackground
         tab.translatesAutoresizingMaskIntoConstraints = false
         return tab
     }()
@@ -106,7 +106,7 @@ private extension HomeRootViewController {
         NSLayoutConstraint.activate([
             tab.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             tab.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -0),
-            tab.topAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            tab.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tab.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
