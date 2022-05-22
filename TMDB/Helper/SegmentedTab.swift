@@ -29,7 +29,7 @@ class SegmentedTab: UISegmentedControl {
     //MARK: - Components
     private lazy var indicatorLayer: CALayer = {
         let layer = CALayer()
-        layer.backgroundColor = UIColor.cafe_3.cgColor
+        layer.backgroundColor = UIColor.cafe_5.cgColor
         return layer
     }()
     
@@ -78,12 +78,12 @@ class SegmentedTab: UISegmentedControl {
     
     //MARK: - Private Functions
     private func setupViews() {
-        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.cafe_4,
-                         NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)]
+        let attribute = [NSAttributedString.Key.foregroundColor: UIColor.cafe_5,
+                         NSAttributedString.Key.font: UIFont.simpleFont.circularSubheadBold]
         setTitleTextAttributes(attribute, for: .normal)
         
-        let attribute1 = [NSAttributedString.Key.foregroundColor: UIColor.cafe_4,
-                          NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14, weight: .semibold)]
+        let attribute1 = [NSAttributedString.Key.foregroundColor: UIColor.cafe_5,
+                          NSAttributedString.Key.font: UIFont.simpleFont.circularSubheadBold]
         setTitleTextAttributes(attribute1, for: .selected)
         
         setBackgroundImage(UIImage(named: "AppIcon"), for: .normal, barMetrics: .default)

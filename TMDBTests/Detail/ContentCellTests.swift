@@ -29,14 +29,12 @@ class ContentCellTests: XCTestCase {
     
     func test_SetupContent_ShouldSetTextLabel() {
         // given
-        let title = "title"
         let description = "desc"
                 
         // when
-        sut.setupContent(title: title, description: description)
+        sut.setupContent(description: description)
         
         // then
-        XCTAssertEqual(sut.textLabel?.text, title)
-        XCTAssertEqual(sut.detailTextLabel?.text, description)
+        XCTAssertEqual(sut.descriptionLabel.text, description)
     }
 }

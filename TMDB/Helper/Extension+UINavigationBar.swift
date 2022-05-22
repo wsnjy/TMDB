@@ -14,8 +14,7 @@ extension UINavigationController {
         
         if #available(iOS 15.0, *) {
             let currentTextStyle = navigationBar.compactAppearance?.titleTextAttributes
-            let selectedFont: UIFont = UIFont.systemFont(ofSize: 14, weight: .semibold)
-//            let backButtonImage: UIImage? = LAImage.getImage(image: .arrowLeftOutline)
+            let selectedFont: UIFont = UIFont.simpleFont.circularBodyBold ?? UIFont.systemFont(ofSize: 14, weight: .semibold)
             
             let backButtonAppearance = UIBarButtonItemAppearance(style: .plain)
             backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
@@ -23,9 +22,11 @@ extension UINavigationController {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.shadowImage = selectedImage
-            appearance.titleTextAttributes = currentTextStyle ?? [NSAttributedString.Key.font: selectedFont, NSAttributedString.Key.foregroundColor: UIColor.black]
-//            appearance.setBackIndicatorImage(backButtonImage, transitionMaskImage: backButtonImage)
+            appearance.titleTextAttributes = currentTextStyle ?? [NSAttributedString.Key.font: selectedFont, NSAttributedString.Key.foregroundColor: UIColor.cafe_5]
             appearance.backButtonAppearance = backButtonAppearance
+            
+            appearance.backgroundColor = UIColor.cafe_1
+
             if isRemoved {
                 appearance.shadowColor = .clear
             }

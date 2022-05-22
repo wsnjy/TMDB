@@ -25,11 +25,10 @@ class DetailViewModelTests: XCTestCase {
         sut.viewDidLoad()
         
         // then
-        XCTAssertTrue(sut.contentDetail.value.isEmpty)
+        XCTAssertEqual(sut.contentDetail.value, TitleDescriptionMovie.defaultData())
         XCTAssertTrue(sut.reviews.value.isEmpty)
         XCTAssertTrue(sut.credits.value.isEmpty)
         XCTAssertEqual(sut.headerData.value, HeaderData.defaultData())
-        XCTAssertEqual(sut.rateAndGenre.value, RateAndGenre.defaultData())
     }
     
     func testType_WhenIsSetMovie_ItemTypeSetMovie() {
@@ -82,6 +81,6 @@ class DetailViewModelTests: XCTestCase {
 extension Movie {
     
     static func dummyData() -> Movie {
-        return Movie(posterPath: "", adult: false, overview: "", releaseDate: "", id: 0, originalName: "", originalTitle: "", originalLanguage: "", title: "title", backdropPath: "", popularity: 0, voteCount: 0, video: false, voteAverage: 0)
+        return Movie(title: "title", originalName: "title", originalTitle: "title", posterPath: "", adult: false, overview: "", releaseDate: "", id: 0, originalLanguage: "", backdropPath: "", popularity: 0, voteCount: 0, video: false, voteAverage: 0)
     }
 }
