@@ -7,10 +7,10 @@
 
 import Foundation
 import WSNetwork
+import RxSwift
 
 protocol HomeRepository {
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void)
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void)
+    func getTrendingItem(url: URL) -> Observable<MovieResult>
 }
 
 class RemoteHomeRepository: HomeRepository {
@@ -21,11 +21,19 @@ class RemoteHomeRepository: HomeRepository {
         self.service = service
     }
     
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void) {
-        service.fetchRequest(type: MovieResult.self, url: url, completion: completion)
-    }
-    
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void) {
-        
+    func getTrendingItem(url: URL) -> Observable<MovieResult> {
+        return Observable<MovieResult>.create { observer in
+            self.service.fetchRequest(type: MovieResult.self, url: url) { result in
+                switch result {
+                case .success(let data):
+                    observer.onNext(data)
+                    observer.onCompleted()
+                case .failure:
+                    observer.onError(HTTPError.requestError)
+                }
+            }
+            
+            return Disposables.create()
+        }
     }
 }

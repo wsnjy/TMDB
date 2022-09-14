@@ -29,7 +29,7 @@
 		BD823F9B2834B9FD005C209B /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F9A2834B9FD005C209B /* Movie.swift */; };
 		BD823F9F2834BE3E005C209B /* HomeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823F9E2834BE3E005C209B /* HomeUseCase.swift */; };
 		BD823FA22834DAE4005C209B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FA12834DAE4005C209B /* HomeViewModel.swift */; };
-		BD823FA52834DB99005C209B /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FA42834DB99005C209B /* Observable.swift */; };
+		BD823FA52834DB99005C209B /* Obsrvbl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FA42834DB99005C209B /* Obsrvbl.swift */; };
 		BD823FAD2834E9F9005C209B /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FAC2834E9F9005C209B /* DetailRepository.swift */; };
 		BD823FAF2834EB88005C209B /* DetailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FAE2834EB88005C209B /* DetailUseCase.swift */; };
 		BD823FB12834EC1A005C209B /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD823FB02834EC1A005C209B /* DetailViewModel.swift */; };
@@ -60,6 +60,8 @@
 		BDC97BC4283A6F5F00AD497F /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC97BC3283A6F5F00AD497F /* HomeViewModelTests.swift */; };
 		BDC97BC7283A6F8A00AD497F /* MockDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC97BC6283A6F8A00AD497F /* MockDetail.swift */; };
 		BDC97BC9283A734000AD497F /* MockHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC97BC8283A734000AD497F /* MockHome.swift */; };
+		BDDCB2D728D158A7002B7E9A /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BDDCB2D628D158A7002B7E9A /* RxCocoa */; };
+		BDDCB2D928D158A7002B7E9A /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BDDCB2D828D158A7002B7E9A /* RxSwift */; };
 		BDE2F8B52835C6CA00105224 /* HeaderTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2F8B42835C6CA00105224 /* HeaderTable.swift */; };
 		BDE2F8B72835E75700105224 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2F8B62835E75700105224 /* ReviewCell.swift */; };
 		BDE2F8DF28362F4C00105224 /* FooterDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2F8DE28362F4C00105224 /* FooterDetail.swift */; };
@@ -114,7 +116,7 @@
 		BD823F9A2834B9FD005C209B /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		BD823F9E2834BE3E005C209B /* HomeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeUseCase.swift; sourceTree = "<group>"; };
 		BD823FA12834DAE4005C209B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		BD823FA42834DB99005C209B /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		BD823FA42834DB99005C209B /* Obsrvbl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obsrvbl.swift; sourceTree = "<group>"; };
 		BD823FAC2834E9F9005C209B /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		BD823FAE2834EB88005C209B /* DetailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUseCase.swift; sourceTree = "<group>"; };
 		BD823FB02834EC1A005C209B /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -161,7 +163,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDDCB2D728D158A7002B7E9A /* RxCocoa in Frameworks */,
 				BD823FBE28351E5C005C209B /* Kingfisher in Frameworks */,
+				BDDCB2D928D158A7002B7E9A /* RxSwift in Frameworks */,
 				BD8A363F2837DFC300C4310E /* WSNetwork in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +334,7 @@
 		BD823FA32834DB91005C209B /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				BD823FA42834DB99005C209B /* Observable.swift */,
+				BD823FA42834DB99005C209B /* Obsrvbl.swift */,
 				BD8A358F2837759A00C4310E /* SegmentedTab.swift */,
 				BD8A35912837885D00C4310E /* Extension+UINavigationBar.swift */,
 				BD8A35932837A09200C4310E /* Reachability.swift */,
@@ -511,6 +515,8 @@
 			packageProductDependencies = (
 				BD823FBD28351E5C005C209B /* Kingfisher */,
 				BD8A363E2837DFC300C4310E /* WSNetwork */,
+				BDDCB2D628D158A7002B7E9A /* RxCocoa */,
+				BDDCB2D828D158A7002B7E9A /* RxSwift */,
 			);
 			productName = TMDB;
 			productReference = BD823F622834A041005C209B /* TMDB.app */;
@@ -547,6 +553,7 @@
 			mainGroup = BD823F592834A041005C209B;
 			packageReferences = (
 				BD823FBC28351E5C005C209B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				BDDCB2D528D158A6002B7E9A /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = BD823F632834A041005C209B /* Products */;
 			projectDirPath = "";
@@ -603,7 +610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD8B36CD283A422700547F80 /* HeaderData.swift in Sources */,
-				BD823FA52834DB99005C209B /* Observable.swift in Sources */,
+				BD823FA52834DB99005C209B /* Obsrvbl.swift in Sources */,
 				BD8B36992839D16B00547F80 /* Extension+Color.swift in Sources */,
 				BD823F6A2834A041005C209B /* HomeViewController.swift in Sources */,
 				BD8B36C7283A037C00547F80 /* VerticalInfo.swift in Sources */,
@@ -926,6 +933,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		BDDCB2D528D158A6002B7E9A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -937,6 +952,16 @@
 		BD8A363E2837DFC300C4310E /* WSNetwork */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WSNetwork;
+		};
+		BDDCB2D628D158A7002B7E9A /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDDCB2D528D158A6002B7E9A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		BDDCB2D828D158A7002B7E9A /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDDCB2D528D158A6002B7E9A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

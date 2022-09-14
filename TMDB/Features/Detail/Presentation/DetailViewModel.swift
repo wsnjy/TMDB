@@ -16,10 +16,10 @@ protocol DetailViewModelInput {
 }
 
 protocol DetailViewModelOutput {
-    var contentDetail: Observable<TitleDescriptionMovie>  { get }
-    var reviews: Observable<[Review]>  { get }
-    var credits: Observable<[Cast]>  { get }
-    var headerData: Observable<HeaderData>  { get }
+    var contentDetail: Obsrvbl<TitleDescriptionMovie>  { get }
+    var reviews: Obsrvbl<[Review]>  { get }
+    var credits: Obsrvbl<[Cast]>  { get }
+    var headerData: Obsrvbl<HeaderData>  { get }
 }
 
 enum DetailState: Equatable {
@@ -32,11 +32,11 @@ protocol DetailViewModel: DetailViewModelInput, DetailViewModelOutput {}
 
 class DefaultDetailViewModel: DetailViewModel {
     
-    var contentDetail: Observable<TitleDescriptionMovie> = Observable(TitleDescriptionMovie.defaultData())
-    var reviews: Observable<[Review]> = Observable([])
-    var credits: Observable<[Cast]> = Observable([])
-    var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
-    var detailState: Observable<DetailState> = Observable(.showData)
+    var contentDetail: Obsrvbl<TitleDescriptionMovie> = Obsrvbl(TitleDescriptionMovie.defaultData())
+    var reviews: Obsrvbl<[Review]> = Obsrvbl([])
+    var credits: Obsrvbl<[Cast]> = Obsrvbl([])
+    var headerData: Obsrvbl<HeaderData> = Obsrvbl(HeaderData.defaultData())
+    var detailState: Obsrvbl<DetailState> = Obsrvbl(.showData)
     var useCase: DetailUseCase!
     
     private(set) var itemID: String = ""

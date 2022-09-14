@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RxSwift
 
 enum ItemType: String {
     case movie
@@ -23,21 +24,23 @@ protocol HomeViewModelInput {
 }
 
 protocol HomeViewModelOutput {
-    var trending: Observable<[Movie]>  { get }
-    var discover: Observable<[Movie]>  { get }
-    var headerData: Observable<HeaderData>  { get }
-    var homeState: Observable<HomeState>  { get }
+    var trending: Obsrvbl<[Movie]>  { get }
+    var discover: Obsrvbl<[Movie]>  { get }
+    var headerData: Obsrvbl<HeaderData>  { get }
+    var homeState: Obsrvbl<HomeState>  { get }
 }
 
 protocol HomeViewModel: HomeViewModelInput, HomeViewModelOutput {}
 
 class DefaultHomeViewModel: HomeViewModel {
     
-    var trending: Observable<[Movie]> = Observable([])
-    var discover: Observable<[Movie]> = Observable([])
-    var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
-    var homeState: Observable<HomeState> = Observable(.showData)
+    var trending: Obsrvbl<[Movie]> = Obsrvbl([])
+    var discover: Obsrvbl<[Movie]> = Obsrvbl([])
+    var headerData: Obsrvbl<HeaderData> = Obsrvbl(HeaderData.defaultData())
+    var homeState: Obsrvbl<HomeState> = Obsrvbl(.showData)
     var useCase: HomeUsecase!
+    
+    private let disposeBag = DisposeBag()
     
     init(useCase: HomeUsecase = DefaultHomeUsecase()) {
         self.useCase = useCase
@@ -62,16 +65,15 @@ class DefaultHomeViewModel: HomeViewModel {
             return homeState.value = .errorNetwork(message: "Check Your Connection First, Please!")
         }
         
-        useCase.getTrendingItem(url: url) { result in
-            switch result {
-            case .success(let data):
-                self.trending.value = data.results
+        useCase.getTrendingItem(url: url)
+            .observe(on: MainScheduler.instance)
+            .subscribe { result in
+                self.trending.value = result.results
                 self.homeState.value = .showData
                 self.setHeaderData()
-            case .failure:
+            } onError: { error in
                 self.homeState.value = .generalError
-            }
-        }
+            }.disposed(by: disposeBag)        
     }
     
     private func setHeaderData() {
@@ -100,14 +102,13 @@ class DefaultHomeViewModel: HomeViewModel {
             return
         }
 
-        useCase.getTrendingItem(url: url) { result in
-            switch result {
-            case .success(let data):
-                self.discover.value = data.results
+        useCase.getTrendingItem(url: url)
+            .observe(on: MainScheduler.instance)
+            .subscribe { result in
+                self.discover.value = result.results
                 self.homeState.value = .showData
-            case .failure:
+            } onError: { error in
                 self.homeState.value = .generalError
-            }
-        }
+            }.disposed(by: disposeBag)
     }
 }

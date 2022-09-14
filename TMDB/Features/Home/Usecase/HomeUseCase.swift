@@ -7,10 +7,10 @@
 
 import Foundation
 import WSNetwork
+import RxSwift
 
 protocol HomeUsecase {
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void)
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void)
+    func getTrendingItem(url: URL) -> Observable<MovieResult>
 }
 
 class DefaultHomeUsecase: HomeUsecase {
@@ -21,10 +21,7 @@ class DefaultHomeUsecase: HomeUsecase {
         self.repository = repository
     }
     
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void) {
-        repository.getTrendingItem(url: url, completion: completion)
-    }
-    
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void) {
-    }
+    func getTrendingItem(url: URL) -> Observable<MovieResult> {
+        return repository.getTrendingItem(url: url)
+    }    
 }
