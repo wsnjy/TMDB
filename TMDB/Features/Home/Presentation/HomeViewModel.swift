@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 enum ItemType: String {
     case movie
@@ -38,6 +39,7 @@ class DefaultHomeViewModel: HomeViewModel {
     var headerData: Observable<HeaderData> = Observable(HeaderData.defaultData())
     var homeState: Observable<HomeState> = Observable(.showData)
     var useCase: HomeUsecase!
+    private var cancellables = Set<AnyCancellable>()
     
     init(useCase: HomeUsecase = DefaultHomeUsecase()) {
         self.useCase = useCase
@@ -62,16 +64,20 @@ class DefaultHomeViewModel: HomeViewModel {
             return homeState.value = .errorNetwork(message: "Check Your Connection First, Please!")
         }
         
-        useCase.getTrendingItem(url: url) { result in
-            switch result {
-            case .success(let data):
-                self.trending.value = data.results
-                self.homeState.value = .showData
-                self.setHeaderData()
-            case .failure:
-                self.homeState.value = .generalError
-            }
-        }
+        useCase.getTrendingItem(url: url)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure:
+                    self.homeState.value = .generalError
+                case .finished:
+                    self.homeState.value = .showData
+                }
+            }, receiveValue: { trending in
+                    self.trending.value = trending.results
+                    self.setHeaderData()
+            })
+            .store(in: &cancellables)
     }
     
     private func setHeaderData() {
@@ -100,14 +106,18 @@ class DefaultHomeViewModel: HomeViewModel {
             return
         }
 
-        useCase.getTrendingItem(url: url) { result in
-            switch result {
-            case .success(let data):
-                self.discover.value = data.results
-                self.homeState.value = .showData
-            case .failure:
-                self.homeState.value = .generalError
-            }
-        }
+        useCase.getTrendingItem(url: url)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure:
+                    self.homeState.value = .generalError
+                case .finished:
+                    self.homeState.value = .showData
+                }
+            }, receiveValue: { discover in
+                self.discover.value = discover.results
+            })
+            .store(in: &cancellables)
     }
 }

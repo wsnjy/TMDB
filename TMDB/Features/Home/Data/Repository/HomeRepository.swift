@@ -7,10 +7,10 @@
 
 import Foundation
 import WSNetwork
+import Combine
 
 protocol HomeRepository {
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void)
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void)
+    func getTrendingItem(url: URL) -> AnyPublisher<MovieResult, Error>
 }
 
 class RemoteHomeRepository: HomeRepository {
@@ -21,11 +21,16 @@ class RemoteHomeRepository: HomeRepository {
         self.service = service
     }
     
-    func getTrendingItem(url: URL, completion: @escaping (Result<MovieResult, HTTPError>) -> Void) {
-        service.fetchRequest(type: MovieResult.self, url: url, completion: completion)
-    }
-    
-    func getDiscoverItem(url: URL, completion: @escaping (Result<[Movie], HTTPError>) -> Void) {
-        
+    func getTrendingItem(url: URL) -> AnyPublisher<MovieResult, Error> {
+        return Future<MovieResult, Error> { completion in
+            self.service.fetchRequest(type: MovieResult.self, url: url) { result in
+                switch result {
+                case .success(let value):
+                    completion(.success(value))
+                case .failure:
+                    completion(.failure(HTTPError.requestError))
+                }
+            }
+        }.eraseToAnyPublisher()
     }
 }
